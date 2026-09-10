@@ -5,10 +5,14 @@ export function LandingStage() {
   return (
     <div className="landing-stage">
       <div className="landing-hero-pin">
-        <LandingHero />
+        <div className="landing-hero-inner landing-recede">
+          <LandingHero />
+        </div>
       </div>
       <div className="landing-preview-pin">
-        <LandingPreview />
+        <div className="landing-preview-inner landing-preview-motion">
+          <LandingPreview />
+        </div>
       </div>
     </div>
   );
