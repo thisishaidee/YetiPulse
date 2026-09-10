@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import { usePathname } from "next/navigation";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -26,7 +27,9 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
       <AppShell>
         <main className="flex-1 pb-28 md:pb-0">{children}</main>
       </AppShell>
-      <BottomNav />
+      <Suspense fallback={null}>
+        <BottomNav />
+      </Suspense>
     </>
   );
 }
