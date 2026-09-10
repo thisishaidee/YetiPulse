@@ -1,15 +1,13 @@
-import { Hero } from "@/components/landing/Hero";
-import { TrustBar } from "@/components/landing/TrustBar";
-import { FeatureGrid } from "@/components/landing/FeatureGrid";
-import { HowItWorks } from "@/components/landing/HowItWorks";
+import { LandingStage } from "@/components/landing/LandingStage";
+import { LandingHowItWorks } from "@/components/landing/LandingHowItWorks";
+import { LandingTrust } from "@/components/landing/LandingTrust";
 
 export default function HomePage() {
   return (
     <>
-      <Hero />
-      <TrustBar />
-      <FeatureGrid />
-      <HowItWorks />
+      <LandingStage />
+      <LandingHowItWorks />
+      <LandingTrust />
     </>
   );
 }
