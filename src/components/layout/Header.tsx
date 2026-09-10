@@ -5,12 +5,6 @@ import { usePathname } from "next/navigation";
 import { Logo } from "@/components/ui/Logo";
 import { cn } from "@/lib/utils";
 
-const navLinks = [
-  { href: "/", label: "Home" },
-  { href: "/#how-it-works", label: "How It Works" },
-  { href: "/wallet", label: "Dashboard" },
-];
-
 export function Header() {
   const pathname = usePathname();
 
@@ -22,33 +16,27 @@ export function Header() {
         </Link>
 
         <nav className="hidden items-center gap-1 md:flex">
-          {navLinks.map((link) => {
-            const isActive =
-              link.href === "/"
-                ? pathname === "/"
-                : link.href.startsWith("/wallet")
-                  ? pathname.startsWith("/wallet")
-                  : false;
-            return (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={cn(
-                  "rounded-lg px-4 py-2 text-sm font-medium transition-colors active:scale-95",
-                  isActive ? "text-white" : "text-gray-500 hover:text-gray-300"
-                )}
-              >
-                {link.label}
-              </Link>
-            );
-          })}
+          <Link
+            href="/#how-it-works"
+            className="rounded-lg px-4 py-2 text-sm font-medium text-gray-500 transition-colors hover:text-gray-300 active:scale-95"
+          >
+            How it works
+          </Link>
+          <Link
+            href="/pulse"
+            className={cn(
+              "rounded-lg px-4 py-2 text-sm font-medium transition-colors active:scale-95",
+              pathname.startsWith("/pulse")
+                ? "text-white"
+                : "text-gray-500 hover:text-gray-300"
+            )}
+          >
+            Pulse
+          </Link>
         </nav>
 
-        <Link
-          href="/wallet"
-          className="btn-primary !rounded-full !px-5 !py-2"
-        >
-          Analyze
+        <Link href="/#scan" className="btn-primary !rounded-full !px-5 !py-2">
+          Scan a wallet
         </Link>
       </div>
     </header>
