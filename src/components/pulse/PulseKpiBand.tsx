@@ -1,7 +1,7 @@
 import type { WalletSummary } from "@/types/wallet";
 
 function displayValue(label: string, value: string): string {
-  if (!value || value === "\u2014" || value === "\u2013") return "n/a";
+  if (!value || value === "—" || value === "–") return "n/a";
   if (label !== "Last activity") return value;
   return value
     .replace("Just now", "Now")
