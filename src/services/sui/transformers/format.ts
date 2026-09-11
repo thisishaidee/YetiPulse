@@ -41,15 +41,6 @@ export function mistToNumber(mist: string): number {
   return Number(BigInt(mist)) / Number(MIST_PER_SUI);
 }
 
-/**
- * Generic version of mistToNumber for tokens that aren't SUI and may use a
- * different decimal count (e.g. USDC on Sui typically uses 6, not 9).
- * Used by the price/valuation layer, which needs precise numeric balances
- * rather than the comma-formatted display strings produced by
- * formatMistAmount. Splits the integer division so very large balances
- * don't lose precision the way `Number(bigint) / Number(bigint)` can for
- * extreme values.
- */
 export function rawAmountToNumber(raw: string | bigint, decimals: number): number {
   const value = typeof raw === "bigint" ? raw : BigInt(raw);
   const divisor = BigInt(10) ** BigInt(decimals);
@@ -65,10 +56,22 @@ export function formatRelativeTime(timestampMs: string | null | undefined): stri
   const seconds = Math.floor(diff / 1000);
 
   if (seconds < 60) return "Just now";
-  if (seconds < 3600) return `${Math.floor(seconds / 60)} min ago`;
-  if (seconds < 86400) return `${Math.floor(seconds / 3600)} hours ago`;
-  if (seconds < 604800) return `${Math.floor(seconds / 86400)} days ago`;
-  if (seconds < 2592000) return `${Math.floor(seconds / 604800)} weeks ago`;
+  if (seconds < 3600) {
+    const minutes = Math.floor(seconds / 60);
+    return minutes === 1 ? "1 min ago" : `${minutes} min ago`;
+  }
+  if (seconds < 86400) {
+    const hours = Math.floor(seconds / 3600);
+    return hours === 1 ? "1 hour ago" : `${hours} hours ago`;
+  }
+  if (seconds < 604800) {
+    const days = Math.floor(seconds / 86400);
+    return days === 1 ? "1 day ago" : `${days} days ago`;
+  }
+  if (seconds < 2592000) {
+    const weeks = Math.floor(seconds / 604800);
+    return weeks === 1 ? "1 week ago" : `${weeks} weeks ago`;
+  }
 
   return new Date(Number(timestampMs)).toLocaleDateString("en-US", {
     month: "short",
