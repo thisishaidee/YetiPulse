@@ -28,13 +28,13 @@ function SettingsBody() {
           ) : (
             <p className="mt-4 text-sm text-gray-500">
               No wallet scanned.{" "}
-              <Link href="/" className="text-accent hover:text-accent-glow">Go to Landing</Link>
+              <Link href="/" className="text-accent hover:text-accent-glow">Scan from home</Link>
             </p>
           )}
         </section>
         <section>
           <p className="section-label">Network</p>
-          <p className="mt-3 text-sm text-gray-400">Sui mainnet \u00b7 Official Sui RPC \u00b7 read-only</p>
+          <p className="mt-3 text-sm leading-relaxed text-gray-400">Sui mainnet · Official Sui RPC · read only</p>
         </section>
         <section>
           <p className="section-label">Appearance</p>
@@ -45,7 +45,7 @@ function SettingsBody() {
         <section>
           <p className="section-label">About</p>
           <p className="mt-3 max-w-prose text-sm leading-relaxed text-gray-500">
-            YetiPulse is a read-only briefing of recent Sui activity for an address you paste. The feed is a snapshot of the latest transactions, not lifetime history.
+            YetiPulse is a read only briefing of recent Sui activity for an address you paste. The feed is a snapshot of the latest transactions, not lifetime history.
           </p>
         </section>
       </div>
