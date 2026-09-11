@@ -15,7 +15,7 @@ export function SnapshotFacts({ analysis }: { analysis: WalletAnalysis }) {
     },
     {
       label: "Heuristic risk",
-      value: `${analysis.summary.riskLevel} · ${analysis.summary.riskScore}`,
+      value: `${analysis.summary.riskLevel[0].toUpperCase()}${analysis.summary.riskLevel.slice(1)} · ${analysis.summary.riskScore}`,
     },
   ];
 
@@ -26,7 +26,7 @@ export function SnapshotFacts({ analysis }: { analysis: WalletAnalysis }) {
         {facts.map((fact) => (
           <div key={fact.label} className="flex items-start justify-between gap-4">
             <dt className="text-xs text-gray-500">{fact.label}</dt>
-            <dd className="max-w-[60%] break-words text-right text-sm capitalize text-gray-200">{fact.value}</dd>
+            <dd className="max-w-[60%] break-words text-right text-sm text-gray-200">{fact.value}</dd>
           </div>
         ))}
       </dl>

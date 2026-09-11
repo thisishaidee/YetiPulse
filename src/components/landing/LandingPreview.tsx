@@ -27,14 +27,14 @@ const stripe = {
 
 export function LandingPreview() {
   return (
-    <section className="flex min-h-[calc(100vh-88px)] items-center px-6 py-16 md:py-20">
+    <section className="flex items-center px-4 py-12 sm:px-6 sm:py-16 md:min-h-[calc(100vh-88px)] md:py-20">
       <div className="mx-auto w-full max-w-6xl">
         <p className="section-label">Preview</p>
         <h2 className="mt-2 text-2xl font-semibold tracking-tight text-white sm:text-3xl">
           A briefing, not a spreadsheet
         </h2>
         <div className="card mt-8 overflow-hidden !p-0">
-          <div className="flex flex-col gap-3 border-b border-white/[0.06] px-5 py-5 sm:flex-row sm:items-end sm:justify-between sm:px-6">
+          <div className="flex flex-col gap-3 border-b border-white/[0.06] px-4 py-5 sm:flex-row sm:items-end sm:justify-between sm:px-6">
             <div>
               <p className="section-label">Active wallet</p>
               <p className="mt-1 font-mono text-sm font-medium text-accent">0x1e63fe…33aa64</p>
@@ -44,11 +44,14 @@ export function LandingPreview() {
               <p className="mt-1 text-sm text-gray-500">4,210 SUI · Quiet</p>
             </div>
           </div>
-          <div className="grid grid-cols-2 divide-y divide-white/[0.06] border-b border-white/[0.06] md:grid-cols-4 md:divide-x md:divide-y-0">
-            {kpis.map((kpi) => (
-              <div key={kpi.label} className="px-5 py-4 sm:px-6">
+          <div className="grid grid-cols-2 border-b border-white/[0.06] md:grid-cols-4 md:divide-x md:divide-white/[0.06]">
+            {kpis.map((kpi, index) => (
+              <div
+                key={kpi.label}
+                className={`flex min-h-[88px] flex-col justify-between px-4 py-4 sm:px-6 ${index < 2 ? "border-b border-white/[0.06] md:border-b-0" : ""} ${index % 2 === 0 ? "border-r border-white/[0.06] md:border-r-0" : ""}`}
+              >
                 <p className="section-label">{kpi.label}</p>
-                <p className="mt-2 text-xl font-bold tabular-nums text-white sm:text-2xl">{kpi.value}</p>
+                <p className="mt-3 truncate text-lg font-bold leading-none tabular-nums text-white sm:text-xl md:text-2xl">{kpi.value}</p>
               </div>
             ))}
           </div>
