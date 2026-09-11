@@ -20,12 +20,13 @@ export function WalletInput({
   initialValue = "",
   isLoading = false,
   size = "default",
-  submitLabel = "Analyze",
+  submitLabel = "Scan",
   submitIcon: SubmitIcon,
   showDemo = true,
 }: WalletInputProps) {
   const [address, setAddress] = useState(initialValue);
   const [error, setError] = useState("");
+  const loadingLabel = submitLabel === "Analyze" ? "Analyzing..." : "Scanning...";
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -71,10 +72,10 @@ export function WalletInput({
           <button
             type="submit"
             disabled={isLoading}
-            className="btn-primary shrink-0 !rounded-xl !px-5 !py-2.5"
+            className="btn-primary shrink-0 !min-h-11 !rounded-xl !px-5 !py-2.5"
           >
             {SubmitIcon && <SubmitIcon className="h-4 w-4" />}
-            {isLoading ? "Scanning..." : submitLabel}
+            {isLoading ? loadingLabel : submitLabel}
           </button>
         </div>
         {showDemo && (
@@ -83,9 +84,9 @@ export function WalletInput({
               type="button"
               onClick={handleDemo}
               disabled={isLoading}
-              className="text-sm text-gray-500 transition-colors hover:text-accent active:scale-95"
+              className="min-h-11 text-sm text-gray-500 transition-colors hover:text-accent active:scale-95"
             >
-              or try demo wallet →
+              or try a live demo wallet →
             </button>
           </div>
         )}
@@ -117,17 +118,17 @@ export function WalletInput({
           <button
             type="submit"
             disabled={isLoading}
-            className="btn-primary whitespace-nowrap"
+            className="btn-primary min-h-11 whitespace-nowrap"
           >
             {SubmitIcon && <SubmitIcon className="h-4 w-4" />}
-            {isLoading ? "Analyzing..." : submitLabel}
+            {isLoading ? loadingLabel : submitLabel}
           </button>
           {showDemo && (
             <button
               type="button"
               onClick={handleDemo}
               disabled={isLoading}
-              className="btn-secondary whitespace-nowrap"
+              className="btn-secondary min-h-11 whitespace-nowrap"
             >
               Try Demo
             </button>

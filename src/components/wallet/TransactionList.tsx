@@ -7,7 +7,6 @@ import {
   RefreshCw,
   Lock,
   Image,
-  Sparkles,
   Inbox,
 } from "lucide-react";
 import type { Transaction, AIExplanation } from "@/types/wallet";
@@ -68,15 +67,7 @@ export function TransactionList({
         <SectionHeader
           label="History"
           title="Recent Activity"
-          action={
-            <span className="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-wider text-accent">
-              <span className="relative flex h-1.5 w-1.5">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-50" />
-                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-accent" />
-              </span>
-              Live
-            </span>
-          }
+          description={`Showing ${transactions.length} recent transactions`}
         />
 
         <div className="mt-4 flex gap-2 overflow-x-auto pb-1">
@@ -86,7 +77,7 @@ export function TransactionList({
               type="button"
               onClick={() => setFilter(f.id)}
               className={cn(
-                "shrink-0 rounded-full px-4 py-1.5 text-xs font-medium transition-all duration-200 active:scale-95",
+                "min-h-11 shrink-0 rounded-full px-4 py-1.5 text-xs font-medium transition-all duration-200 active:scale-95",
                 filter === f.id
                   ? "bg-accent text-surface"
                   : "border border-white/[0.06] bg-white/[0.03] text-gray-500 hover:text-gray-300"
@@ -176,11 +167,10 @@ export function TransactionList({
                     </div>
 
                     {explanation && (
-                      <div className="mt-2.5 flex items-start gap-2.5 rounded-lg bg-accent/5 px-3 py-2.5 ring-1 ring-accent/10">
-                        <Sparkles className="mt-0.5 h-3.5 w-3.5 shrink-0 text-accent" />
+                      <div className="mt-2.5 rounded-lg bg-white/[0.03] px-3 py-2.5 ring-1 ring-white/[0.06]">
                         <p className="text-[13px] leading-relaxed text-gray-300">
-                          <span className="mr-1.5 font-mono text-[10px] font-semibold uppercase tracking-wider text-accent">
-                            AI Summary
+                          <span className="mr-1.5 font-mono text-[10px] font-semibold uppercase tracking-wider text-gray-500">
+                            Summary
                           </span>
                           {explanation.summary}
                         </p>

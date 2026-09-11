@@ -74,36 +74,159 @@
   }
 }
 
-/*
- * Global prefers-reduced-motion support.
- *
- * Two different concerns get two different treatments:
- *
- * 1. Looping / decorative motion (spin, pulse, ping, shimmer, bounce) is
- *    pure decoration with no information value, so it's safe to freeze
- *    outright for anyone who has asked the OS to reduce motion.
- *
- * 2. One-shot entrance animations (.animate-on-load, .animate-slide-up,
- *    .animate-slide-down, and friends) start from an invisible/offset
- *    state by design, so the animation is what reveals the content. Killing
- *    the animation without also forcing the resting state would leave
- *    that content permanently invisible. These get duration/delay zeroed
- *    instead, so they resolve to their end state instantly rather than
- *    being disabled.
- *
- * Components with their own JS-driven motion (SafetyScore's ring,
- * ActivityChart's bars, Reveal's IntersectionObserver) check
- * `matchMedia("(prefers-reduced-motion: reduce)")` directly and skip the
- * animated transition entirely, so they don't depend on this block.
- */
+@layer landing {
+  .landing-hero-glow {
+    background: radial-gradient(ellipse 70% 50% at 50% -10%, rgba(124, 185, 255, 0.1), transparent 70%);
+  }
+
+  .landing-hero-inner,
+  .landing-preview-inner {
+    width: 100%;
+  }
+
+  @media (min-width: 768px) {
+    .landing-hero-pin {
+      min-height: 180vh;
+    }
+
+    .landing-hero-inner {
+      position: sticky;
+      top: 64px;
+      min-height: calc(100vh - 64px);
+    }
+
+    .landing-preview-pin {
+      min-height: 148vh;
+    }
+
+    .landing-preview-inner {
+      position: sticky;
+      top: 88px;
+    }
+  }
+
+  @supports (animation-timeline: view()) {
+    @media (min-width: 768px) {
+      .landing-hero-pin {
+        view-timeline-name: --hero-pin;
+        view-timeline-axis: block;
+      }
+
+      .landing-preview-pin {
+        view-timeline-name: --preview-pin;
+        view-timeline-axis: block;
+      }
+
+      .landing-recede {
+        animation: landing-hero-recede linear both;
+        animation-timeline: --hero-pin;
+        animation-range: contain 0% contain 75%;
+      }
+
+      .landing-preview-motion {
+        animation: landing-preview-enter linear both, landing-preview-exit linear both;
+        animation-timeline: --preview-pin, --preview-pin;
+        animation-range: contain 0% contain 40%, contain 60% contain 100%;
+      }
+
+      .landing-rise {
+        animation: landing-rise linear both;
+        animation-timeline: view();
+        animation-range: entry 0% entry 40%;
+      }
+
+      .landing-rise-soft {
+        animation: landing-rise-soft linear both;
+        animation-timeline: view();
+        animation-range: entry 0% entry 35%;
+      }
+    }
+
+    @media (max-width: 767px) {
+      .landing-preview-motion {
+        animation: landing-preview-mobile linear both;
+        animation-timeline: view();
+        animation-range: entry 0% cover 30%;
+      }
+    }
+  }
+}
+
+@keyframes landing-hero-recede {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+  }
+  55% {
+    pointer-events: auto;
+  }
+  56% {
+    pointer-events: none;
+  }
+  100% {
+    opacity: 0.32;
+    transform: translateY(-40px) scale(0.97);
+    pointer-events: none;
+  }
+}
+
+@keyframes landing-preview-enter {
+  0% {
+    opacity: 0;
+    transform: translateY(40px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes landing-preview-exit {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0.4;
+    transform: translateY(-24px) scale(0.98);
+  }
+}
+
+@keyframes landing-preview-mobile {
+  0% {
+    opacity: 0.35;
+    transform: translateY(16px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes landing-rise {
+  0% {
+    opacity: 0.15;
+    transform: translateY(24px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes landing-rise-soft {
+  0% {
+    opacity: 0.2;
+    transform: translateY(16px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  /*
-   * animate-spin is deliberately excluded here. LoadingSpinner uses it as
-   * a functional "work is happening" indicator, not decoration — freezing
-   * it mid-rotation would look stuck/broken rather than calmer. Spin is
-   * a continuous rotation with no jarring motion (no opacity/position
-   * jumps), so it's not the kind of motion prefers-reduced-motion targets.
-   */
   .animate-spin-slow,
   .animate-pulse-soft,
   .animate-ping,
@@ -120,6 +243,30 @@
     animation-duration: 0.01ms !important;
     animation-delay: 0s !important;
     animation-iteration-count: 1 !important;
+  }
+
+  .landing-hero-pin,
+  .landing-preview-pin {
+    min-height: auto !important;
+  }
+
+  .landing-hero-inner,
+  .landing-preview-inner {
+    position: static !important;
+    min-height: auto !important;
+    transform: none !important;
+    opacity: 1 !important;
+    animation: none !important;
+    pointer-events: auto !important;
+  }
+
+  .landing-recede,
+  .landing-preview-motion,
+  .landing-rise,
+  .landing-rise-soft {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
 
   *,

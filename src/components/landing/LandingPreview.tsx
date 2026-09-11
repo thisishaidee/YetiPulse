@@ -8,13 +8,13 @@ const kpis = [
 const events = [
   {
     title: "Large outbound transfer",
-    amount: "\u22121,200 SUI",
+    amount: "-1,200 SUI",
     why: "Several times larger than recent sends.",
     tone: "notable" as const,
   },
   {
     title: "New counterparty",
-    amount: "\u221248 SUI",
+    amount: "-48 SUI",
     why: "First payment to this address in the window.",
     tone: "info" as const,
   },
@@ -37,11 +37,11 @@ export function LandingPreview() {
           <div className="flex flex-col gap-3 border-b border-white/[0.06] px-5 py-5 sm:flex-row sm:items-end sm:justify-between sm:px-6">
             <div>
               <p className="section-label">Active wallet</p>
-              <p className="mt-1 font-mono text-sm font-medium text-accent">0x1e63fe\u202633aa64</p>
+              <p className="mt-1 font-mono text-sm font-medium text-accent">0x1e63fe…33aa64</p>
             </div>
             <div className="sm:text-right">
               <p className="text-2xl font-bold tabular-nums text-white sm:text-3xl">$12,480</p>
-              <p className="mt-1 text-sm text-gray-500">4,210 SUI \u00b7 Quiet</p>
+              <p className="mt-1 text-sm text-gray-500">4,210 SUI · Quiet</p>
             </div>
           </div>
           <div className="grid grid-cols-2 divide-y divide-white/[0.06] border-b border-white/[0.06] md:grid-cols-4 md:divide-x md:divide-y-0">
