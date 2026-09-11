@@ -30,7 +30,7 @@ function AppHeaderInner({ title, showInput = true }: AppHeaderProps) {
           {title === "Pulse" && <span className="h-1.5 w-1.5 rounded-full bg-risk-low" aria-hidden />}
         </div>
         {showInput && (
-          <div className="hidden max-w-md flex-1 md:block">
+          <div className="hidden min-w-0 max-w-md flex-1 md:block">
             <WalletInput
               key={address}
               onSubmit={handleAnalyze}

@@ -22,10 +22,10 @@ export function PulseEventCard({
     >
       <span className={cn("mt-1 h-10 w-0.5 shrink-0 rounded-full", severityStripe(event.severity))} aria-hidden />
       <div className="min-w-0 flex-1">
-        <div className="flex items-start justify-between gap-3">
-          <p className="text-sm font-medium text-gray-200">{event.title}</p>
+        <div className="flex flex-col gap-1 min-[360px]:flex-row min-[360px]:items-start min-[360px]:justify-between min-[360px]:gap-3">
+          <p className="min-w-0 text-sm font-medium text-gray-200">{event.title}</p>
           {event.amount && (
-            <p className="shrink-0 font-mono text-sm font-semibold tabular-nums text-gray-300">{event.amount}</p>
+            <p className="font-mono text-sm font-semibold tabular-nums text-gray-300 min-[360px]:shrink-0">{event.amount}</p>
           )}
         </div>
         {(event.whatChanged || event.body) && (

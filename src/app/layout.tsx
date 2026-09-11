@@ -14,24 +14,24 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "YetiPulse — What matters about this wallet right now",
+  title: "YetiPulse: What matters about this wallet right now",
   description:
-    "Paste a Sui address. YetiPulse reads live on-chain activity and turns it into a short briefing.",
+    "Paste a Sui address. YetiPulse reads live on chain activity and turns it into a short briefing.",
   icons: {
     icon: [{ url: "/favicon.ico" }, { url: "/icon-192.png", sizes: "192x192", type: "image/png" }],
     apple: "/icon-192.png",
   },
   openGraph: {
-    title: "YetiPulse — What matters about this wallet right now",
+    title: "YetiPulse: What matters about this wallet right now",
     description:
-      "Paste a Sui address. YetiPulse reads live on-chain activity and turns it into a short briefing.",
+      "Paste a Sui address. YetiPulse reads live on chain activity and turns it into a short briefing.",
     images: [{ url: "/icon-512.png", width: 512, height: 512 }],
   },
   twitter: {
     card: "summary",
-    title: "YetiPulse — What matters about this wallet right now",
+    title: "YetiPulse: What matters about this wallet right now",
     description:
-      "Paste a Sui address. YetiPulse reads live on-chain activity and turns it into a short briefing.",
+      "Paste a Sui address. YetiPulse reads live on chain activity and turns it into a short briefing.",
     images: ["/icon-512.png"],
   },
 };

@@ -4,7 +4,7 @@ import { Logo } from "@/components/ui/Logo";
 export function Footer() {
   return (
     <footer className="border-t border-white/[0.06] bg-surface-raised">
-      <div className="mx-auto max-w-6xl px-6 py-12">
+      <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           <div className="sm:col-span-2">
             <Logo />
@@ -42,7 +42,7 @@ export function Footer() {
           <p className="font-mono text-[11px] uppercase tracking-wider text-gray-600">
             © {new Date().getFullYear()} YetiPulse
           </p>
-          <p className="font-mono text-[11px] text-gray-600">Official Sui RPC · read-only snapshot</p>
+          <p className="font-mono text-[11px] text-gray-600">Official Sui RPC · read only snapshot</p>
         </div>
       </div>
     </footer>

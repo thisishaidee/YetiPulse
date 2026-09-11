@@ -29,7 +29,7 @@ export function Logo({ className, showText = true, size = "md" }: LogoProps) {
         />
       </div>
       {showText && (
-        <span className="text-lg font-bold tracking-tight text-white">
+        <span className="hidden text-lg font-bold tracking-tight text-white min-[360px]:inline">
           Yeti<span className="text-accent">Pulse</span>
         </span>
       )}
