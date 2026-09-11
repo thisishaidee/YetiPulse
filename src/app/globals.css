@@ -7,6 +7,11 @@
     scroll-behavior: smooth;
   }
 
+  html,
+  body {
+    overflow-x: clip;
+  }
+
   body {
     @apply bg-surface text-gray-100 antialiased;
     font-feature-settings: "rlig" 1, "calt" 1;
@@ -96,12 +101,12 @@
     }
 
     .landing-preview-pin {
-      min-height: 148vh;
+      min-height: 155vh;
     }
 
     .landing-preview-inner {
       position: sticky;
-      top: 88px;
+      top: 64px;
     }
   }
 
@@ -120,13 +125,13 @@
       .landing-recede {
         animation: landing-hero-recede linear both;
         animation-timeline: --hero-pin;
-        animation-range: contain 0% contain 75%;
+        animation-range: cover 8% cover 78%;
       }
 
       .landing-preview-motion {
         animation: landing-preview-enter linear both, landing-preview-exit linear both;
         animation-timeline: --preview-pin, --preview-pin;
-        animation-range: contain 0% contain 40%, contain 60% contain 100%;
+        animation-range: cover 0% cover 32%, cover 68% cover 100%;
       }
 
       .landing-rise {
@@ -158,15 +163,15 @@
     transform: translateY(0) scale(1);
     pointer-events: auto;
   }
-  55% {
+  42% {
     pointer-events: auto;
   }
-  56% {
+  48% {
     pointer-events: none;
   }
   100% {
-    opacity: 0.32;
-    transform: translateY(-40px) scale(0.97);
+    opacity: 0.22;
+    transform: translateY(-32px) scale(0.98);
     pointer-events: none;
   }
 }
