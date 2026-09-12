@@ -20,12 +20,13 @@ export function WalletInput({
   initialValue = "",
   isLoading = false,
   size = "default",
-  submitLabel = "Analyze",
+  submitLabel = "Scan",
   submitIcon: SubmitIcon,
   showDemo = true,
 }: WalletInputProps) {
   const [address, setAddress] = useState(initialValue);
   const [error, setError] = useState("");
+  const loadingLabel = submitLabel === "Analyze" ? "Analyzing..." : "Scanning...";
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -56,7 +57,7 @@ export function WalletInput({
   if (isLarge) {
     return (
       <form onSubmit={handleSubmit} className="w-full">
-        <div className="relative flex items-center rounded-2xl border border-white/[0.08] bg-surface-hover p-1.5 transition-all duration-200 focus-within:border-accent/30 focus-within:ring-2 focus-within:ring-accent/10">
+        <div className="relative flex flex-col gap-2 rounded-2xl border border-white/[0.08] bg-surface-hover p-1.5 transition-all duration-200 focus-within:border-accent/30 focus-within:ring-2 focus-within:ring-accent/10 min-[420px]:flex-row min-[420px]:items-center min-[420px]:gap-0">
           <input
             type="text"
             value={address}
@@ -64,17 +65,17 @@ export function WalletInput({
               setAddress(e.target.value);
               setError("");
             }}
-            placeholder="Enter Sui Address"
+            placeholder="Enter Sui address"
             className="min-w-0 flex-1 bg-transparent px-4 py-3 font-mono text-sm text-gray-100 placeholder:text-gray-600 focus:outline-none"
             disabled={isLoading}
           />
           <button
             type="submit"
             disabled={isLoading}
-            className="btn-primary shrink-0 !rounded-xl !px-5 !py-2.5"
+            className="btn-primary w-full shrink-0 !min-h-11 !rounded-xl !px-5 !py-2.5 min-[420px]:w-auto"
           >
             {SubmitIcon && <SubmitIcon className="h-4 w-4" />}
-            {isLoading ? "Scanning..." : submitLabel}
+            {isLoading ? loadingLabel : submitLabel}
           </button>
         </div>
         {showDemo && (
@@ -83,9 +84,9 @@ export function WalletInput({
               type="button"
               onClick={handleDemo}
               disabled={isLoading}
-              className="text-sm text-gray-500 transition-colors hover:text-accent active:scale-95"
+              className="min-h-11 text-sm text-gray-500 transition-colors hover:text-accent active:scale-95"
             >
-              or try demo wallet →
+              or try a live demo wallet →
             </button>
           </div>
         )}
@@ -109,25 +110,25 @@ export function WalletInput({
             setAddress(e.target.value);
             setError("");
           }}
-          placeholder="Enter Sui Address"
-          className="input-field"
+          placeholder="Enter Sui address"
+          className="input-field min-w-0"
           disabled={isLoading}
         />
         <div className="flex gap-2 sm:shrink-0">
           <button
             type="submit"
             disabled={isLoading}
-            className="btn-primary whitespace-nowrap"
+            className="btn-primary min-h-11 whitespace-nowrap"
           >
             {SubmitIcon && <SubmitIcon className="h-4 w-4" />}
-            {isLoading ? "Analyzing..." : submitLabel}
+            {isLoading ? loadingLabel : submitLabel}
           </button>
           {showDemo && (
             <button
               type="button"
               onClick={handleDemo}
               disabled={isLoading}
-              className="btn-secondary whitespace-nowrap"
+              className="btn-secondary min-h-11 whitespace-nowrap"
             >
               Try Demo
             </button>

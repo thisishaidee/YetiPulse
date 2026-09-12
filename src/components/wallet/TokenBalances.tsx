@@ -41,7 +41,7 @@ export function TokenBalances({ balances }: TokenBalancesProps) {
           {balances.map((balance, i) => (
             <div
               key={balance.coinType}
-              className="flex items-center justify-between gap-3 px-4 py-3.5 transition-colors hover:bg-white/[0.02] sm:px-6 animate-on-load"
+              className="flex min-w-0 items-center justify-between gap-3 px-4 py-3.5 transition-colors hover:bg-white/[0.02] sm:px-6 animate-on-load"
               style={{ animationDelay: `${i * 0.04}s` }}
             >
               <div className="flex min-w-0 items-center gap-3">
@@ -59,8 +59,8 @@ export function TokenBalances({ balances }: TokenBalancesProps) {
                   </p>
                 </div>
               </div>
-              <div className="shrink-0 text-right">
-                <p className="font-mono text-base font-semibold leading-tight text-white">
+              <div className="min-w-0 max-w-[45%] shrink-0 text-right">
+                <p className="truncate font-mono text-base font-semibold leading-tight text-white">
                   {balance.balance}
                 </p>
                 <p className="mt-0.5 text-xs leading-tight text-gray-600">
@@ -71,7 +71,7 @@ export function TokenBalances({ balances }: TokenBalancesProps) {
                         minimumFractionDigits: 2,
                         maximumFractionDigits: 2,
                       })
-                    : "—"}
+                    : "n/a"}
                 </p>
               </div>
             </div>

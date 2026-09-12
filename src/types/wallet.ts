@@ -9,14 +9,12 @@ export interface Transaction {
   counterparty: string;
   timestamp: string;
   status: "success" | "failed";
-  /** USD value of the primary balance change at the time of transformation. Uses current market price as a fallback when historical pricing isn't available (see price.service.ts) — undefined when no price could be resolved for the token. */
   usdValue?: number;
 }
 
 export interface WalletSummary {
   totalBalance: string;
   totalBalanceUsd: string;
-  /** Numeric sum of all balances' usdValue, for components that need to do math/animation with the raw number rather than the formatted display string in totalBalanceUsd. Undefined when pricing was entirely unavailable. */
   totalPortfolioUsd?: number;
   transactionCount: number;
   uniqueTokens: number;
@@ -42,6 +40,53 @@ export interface AIExplanation {
   tags: string[];
 }
 
+export type PulseSeverity = "urgent" | "notable" | "info";
+
+export type PulseKind =
+  | "large_transfer"
+  | "new_counterparty"
+  | "new_protocol"
+  | "failed_burst"
+  | "frequency_spike"
+  | "asset_inflow"
+  | (string & {});
+
+export type PulseAction =
+  | "Review transaction"
+  | "Verify counterparty"
+  | "Monitor"
+  | (string & {});
+
+export interface PulseBaseline {
+  transactionCount: number;
+  truncated?: boolean;
+  windowLabel?: string;
+}
+
+export interface PulseEventEvidence {
+  digest?: string;
+}
+
+export interface PulseEvent {
+  id: string;
+  kind: PulseKind;
+  severity: PulseSeverity;
+  title: string;
+  body?: string;
+  whatChanged?: string;
+  whyUnusual?: string;
+  whyItMatters?: string;
+  action?: PulseAction;
+  amount?: string;
+  time?: string;
+  evidence?: PulseEventEvidence;
+}
+
+export interface WalletPulse {
+  events: PulseEvent[];
+  baseline?: PulseBaseline;
+}
+
 export interface WalletAnalysis {
   address: string;
   summary: WalletSummary;
@@ -50,4 +95,5 @@ export interface WalletAnalysis {
   assets: import("@/types/sui").OwnedAsset[];
   riskAlerts: RiskAlert[];
   explanations: AIExplanation[];
+  pulse?: WalletPulse;
 }
