@@ -95,7 +95,7 @@ export function TransactionList({
           title="No transactions found"
           description={
             filter === "all"
-              ? "This wallet has no recent on-chain activity to display."
+              ? "This wallet has no recent on chain activity to display."
               : `No ${filter} transactions in recent history.`
           }
         />
@@ -136,8 +136,10 @@ export function TransactionList({
                         <p className="mt-0.5 truncate font-mono text-[11px] uppercase tracking-wider text-gray-600">
                           {tx.counterparty.startsWith("0x")
                             ? truncateAddress(tx.counterparty)
-                            : tx.counterparty}{" "}
-                          • {tx.timestamp}
+                            : tx.counterparty === "\u2014" || tx.counterparty === "\u2013"
+                              ? "unknown"
+                              : tx.counterparty}{" "}
+                          \u2022 {tx.timestamp}
                         </p>
                       </div>
                       <div className="shrink-0 text-right">
@@ -177,10 +179,10 @@ export function TransactionList({
                       </div>
                     )}
 
-                    <div className="mt-2 flex items-center gap-2">
+                    <div className="mt-2 flex min-w-0 items-center gap-2">
                       <span
                         className={cn(
-                          "badge",
+                          "badge shrink-0",
                           tx.status === "success"
                             ? "bg-risk-low/10 text-risk-low"
                             : "bg-risk-high/10 text-risk-high"
@@ -188,7 +190,7 @@ export function TransactionList({
                       >
                         {tx.status}
                       </span>
-                      <span className="font-mono text-[10px] text-gray-600">
+                      <span className="min-w-0 truncate font-mono text-[10px] text-gray-600">
                         {tx.digest}
                       </span>
                     </div>
