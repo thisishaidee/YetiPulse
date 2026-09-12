@@ -56,11 +56,16 @@ export function RecentActivity({
                         <div className="min-w-0">
                           <p className="text-sm font-medium text-gray-200">{config.label}</p>
                           <p className="mt-0.5 truncate font-mono text-[11px] text-gray-600">
-                            {tx.counterparty.startsWith("0x") ? truncateAddress(tx.counterparty) : tx.counterparty} · {tx.timestamp}
+                            {tx.counterparty.startsWith("0x")
+                              ? truncateAddress(tx.counterparty)
+                              : tx.counterparty === "—" || tx.counterparty === "–"
+                                ? "unknown"
+                                : tx.counterparty}{" "}
+                            · {tx.timestamp}
                           </p>
                         </div>
-                        <div className="shrink-0 text-right">
-                          <p className="font-mono text-sm font-semibold tabular-nums text-gray-200">{tx.amount}</p>
+                        <div className="max-w-[46%] shrink-0 text-right">
+                          <p className="break-all font-mono text-sm font-semibold tabular-nums text-gray-200">{tx.amount}</p>
                           <p className={cn("mt-0.5 text-[11px] capitalize", tx.status === "success" ? "text-risk-low" : "text-risk-high")}>
                             {tx.status}
                           </p>

@@ -47,12 +47,12 @@ export function WalletIdentity({
         </div>
       </div>
       {!compact && (
-        <div className="md:text-right">
-          <p className="text-3xl font-bold tabular-nums tracking-tight text-white md:text-4xl">
+        <div className="min-w-0 md:text-right">
+          <p className="break-words text-3xl font-bold tabular-nums tracking-tight text-white md:text-4xl">
             {analysis.summary.totalBalanceUsd}
           </p>
-          <div className="mt-2 flex items-center gap-2 md:justify-end">
-            <p className="text-sm text-gray-500">{analysis.summary.totalBalance} SUI</p>
+          <div className="mt-2 flex flex-wrap items-center gap-2 md:justify-end">
+            <p className="break-all text-sm text-gray-500">{analysis.summary.totalBalance} SUI</p>
             <PulseStatusChip pulse={analysis.pulse} />
           </div>
         </div>
