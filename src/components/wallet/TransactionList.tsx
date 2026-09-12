@@ -45,6 +45,12 @@ function matchesFilter(tx: Transaction, filter: FilterId): boolean {
   return tx.type === "send" || tx.type === "receive";
 }
 
+function displayCounterparty(value: string): string {
+  if (value.startsWith("0x")) return truncateAddress(value);
+  if (value === "\u2014" || value === "\u2013" || value === "-" || !value) return "unknown";
+  return value;
+}
+
 export function TransactionList({
   transactions,
   explanations = [],
@@ -134,12 +140,7 @@ export function TransactionList({
                           {config.label}
                         </p>
                         <p className="mt-0.5 truncate font-mono text-[11px] uppercase tracking-wider text-gray-600">
-                          {tx.counterparty.startsWith("0x")
-                            ? truncateAddress(tx.counterparty)
-                            : tx.counterparty === "\u2014" || tx.counterparty === "\u2013"
-                              ? "unknown"
-                              : tx.counterparty}{" "}
-                          \u2022 {tx.timestamp}
+                          {displayCounterparty(tx.counterparty)} · {tx.timestamp}
                         </p>
                       </div>
                       <div className="shrink-0 text-right">
