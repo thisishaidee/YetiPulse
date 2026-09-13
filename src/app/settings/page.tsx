@@ -37,13 +37,6 @@ function SettingsBody() {
           <p className="mt-3 text-sm leading-relaxed text-gray-400">Sui mainnet · live JSON RPC · read only</p>
         </section>
         <section>
-          <p className="section-label">Appearance</p>
-          <p className="mt-3 text-sm font-medium text-gray-200">Night briefing</p>
-          <p className="mt-1 max-w-prose text-sm leading-relaxed text-gray-500">
-            Fixed dark surface. The chrome stays quiet so the Pulse can carry the light.
-          </p>
-        </section>
-        <section>
           <p className="section-label">About</p>
           <p className="mt-3 max-w-prose text-sm leading-relaxed text-gray-500">
             YetiPulse is a read only briefing of recent Sui activity for an address you paste. The feed is a snapshot of the latest transactions, not lifetime history.
