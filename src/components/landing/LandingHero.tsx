@@ -40,7 +40,7 @@ export function LandingHero() {
           <WalletInput size="large" onSubmit={handleScan} submitLabel="Scan" showDemo />
         </div>
         <p className="mt-5 font-mono text-[10px] uppercase tracking-[0.15em] text-gray-600">
-          Official Sui RPC · No wallet connect · No seed phrase
+          Live Sui RPC · No wallet connect · No seed phrase
         </p>
       </div>
     </section>
