@@ -42,7 +42,7 @@ export function Footer() {
           <p className="font-mono text-[11px] uppercase tracking-wider text-gray-600">
             © {new Date().getFullYear()} YetiPulse
           </p>
-          <p className="font-mono text-[11px] text-gray-600">Official Sui RPC · read only snapshot</p>
+          <p className="font-mono text-[11px] text-gray-600">Live Sui RPC · read only snapshot</p>
         </div>
       </div>
     </footer>
