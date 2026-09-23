@@ -3,7 +3,11 @@ import { getJsonRpcFullnodeUrl } from "@mysten/sui/jsonRpc";
 import type { SuiNetwork } from "./constants";
 
 // Official public fullnodes no longer serve JSON-RPC.
-const MAINNET_JSON_RPC_URL = "https://mainnet.suiet.app";
+const MAINNET_JSON_RPC_URLS = [
+  "https://sui.publicnode.com",
+  "https://rpc-mainnet.suiscan.xyz",
+  "https://sui-mainnet-endpoint.blockvision.org",
+] as const;
 
 function resolveNetwork(): SuiNetwork {
   const env = process.env.SUI_NETWORK?.toLowerCase();
@@ -13,25 +17,36 @@ function resolveNetwork(): SuiNetwork {
   return "mainnet";
 }
 
+export function getMainnetRpcUrls(): string[] {
+  const override = process.env.SUI_RPC_URL?.trim();
+  const urls = override ? [override, ...MAINNET_JSON_RPC_URLS] : [...MAINNET_JSON_RPC_URLS];
+  return [...new Set(urls)];
+}
+
 function resolveRpcUrl(network: SuiNetwork): string {
-  if (process.env.SUI_RPC_URL) {
-    return process.env.SUI_RPC_URL;
-  }
   if (network === "mainnet") {
-    return MAINNET_JSON_RPC_URL;
+    return getMainnetRpcUrls()[0];
   }
-  return getJsonRpcFullnodeUrl(network);
+  return process.env.SUI_RPC_URL ?? getJsonRpcFullnodeUrl(network);
 }
 
 let client: SuiJsonRpcClient | null = null;
+let clientUrl: string | null = null;
 
-export function getSuiClient(): SuiJsonRpcClient {
-  if (!client) {
-    const network = resolveNetwork();
+export function resetSuiClient() {
+  client = null;
+  clientUrl = null;
+}
+
+export function getSuiClient(urlOverride?: string): SuiJsonRpcClient {
+  const network = resolveNetwork();
+  const url = urlOverride ?? resolveRpcUrl(network);
+  if (!client || clientUrl !== url) {
     client = new SuiJsonRpcClient({
-      url: resolveRpcUrl(network),
+      url,
       network,
     });
+    clientUrl = url;
   }
   return client;
 }

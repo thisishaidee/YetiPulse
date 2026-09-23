@@ -1,130 +1,121 @@
 # YetiPulse
 
-Understand Sui blockchain wallet activity in plain English.
+A quiet Sui intelligence briefing.
 
-## Overview
+Paste a Sui address. YetiPulse reads live on chain activity and turns it into a short briefing: what changed, and what to look at next.
 
-YetiPulse is a wallet intelligence dashboard built on Sui. It analyzes live wallet activity, detects risk behavior, tracks assets, and generates AI-powered explanations for wallet actions.
+Live site: [yetipulse.netlify.app](https://yetipulse.netlify.app)
 
-Built for the **CLAY Hackathon (Lofi × Sui)**.
+## What it is
 
-## Features
+YetiPulse is a read only wallet briefing for Sui. It does not connect a wallet, store keys, or ask for a seed phrase. You paste an address. The app reads recent chain data and shows a Pulse first, then the ledger when you want evidence.
 
-- Live Sui wallet analysis
-- Wallet risk scoring
-- AI-generated wallet behavior explanations
-- Transaction categorization (Swaps, Transfers, NFTs, Stake)
-- Owned asset / NFT tracking
-- Real-time token balances
-- Risk alerts & safety recommendations
-- Sui mainnet RPC integration
-- CoinGecko USD pricing integration
-- Responsive mobile + desktop dashboard
+It was started for the CLAY Hackathon (Lofi × Sui) and is now a public briefing surface for Sui mainnet.
 
-## Tech Stack
+## Journey
 
-- Next.js 15 (App Router)
+Landing → Enter a Sui wallet → Scan → Pulse → Evidence
+
+## Destinations
+
+| Route | Role |
+|---|---|
+| `/` | Cinematic landing: hero, Pulse preview, how it works, trust |
+| `/pulse?address=` | Primary briefing |
+| `/portfolio?address=` | Balances, assets, recent history |
+| `/settings` | Facts only |
+| `/wallet` | Redirects to `/pulse` and keeps the address |
+
+## What Pulse shows today
+
+Pulse v1 is honest about the window it can see:
+
+- Live balances and USD pricing when CoinGecko answers
+- A short status (Quiet or Active) from recent activity
+- Last 25 transactions as a snapshot, not lifetime history
+- Tokens and owned objects as supporting evidence
+
+The typed Pulse event engine is in the codebase but unused until that engine ships. Risk alerts are not mapped into the feed.
+
+## What it is not
+
+- Not a wallet
+- Not a connector
+- Not a lifetime explorer
+- Not an AI chat
+
+## Demo wallet
+
+The landing page includes a live demo address:
+
+`0x1e63fee8516e1fa26016e97cc280beebb3def8e837a19be90a2504309a33aa64`
+
+## Data sources
+
+Official Sui public fullnodes no longer serve JSON-RPC. YetiPulse reads mainnet through public JSON-RPC providers and fails over if one endpoint dies.
+
+Default order:
+
+1. `https://sui.publicnode.com`
+2. `https://rpc-mainnet.suiscan.xyz`
+3. `https://sui-mainnet-endpoint.blockvision.org`
+
+Set `SUI_RPC_URL` to force a provider. USD prices come from CoinGecko.
+
+## Tech stack
+
+- Next.js 15 App Router
 - TypeScript
 - Tailwind CSS
-- Sui TypeScript SDK (`@mysten/sui`)
-- CoinGecko API
+- `@mysten/sui` JSON-RPC client
+- CoinGecko for token prices
 
-## Environment Variables
+## Environment
 
-Create `.env.local` in the project root:
+Create `.env.local`:
 
 ```
 SUI_NETWORK=mainnet
 SUI_RPC_URL=
-COINGECKO_API_KEY=YOUR_API_KEY_HERE
+COINGECKO_API_KEY=
 ```
 
 | Variable | Required | Notes |
 |---|---|---|
-| `SUI_NETWORK` | Soft-required | `mainnet` / `testnet` / `devnet`. Defaults to `mainnet` if unset. |
-| `SUI_RPC_URL` | Optional | Falls back to the official Sui public fullnode if omitted. |
-| `COINGECKO_API_KEY` | Optional | Recommended for production — raises CoinGecko rate limits. Free key available at [coingecko.com/en/developers/dashboard](https://www.coingecko.com/en/developers/dashboard). |
+| `SUI_NETWORK` | No | `mainnet` / `testnet` / `devnet`. Defaults to `mainnet`. |
+| `SUI_RPC_URL` | No | Overrides the first mainnet JSON-RPC URL. Fallbacks still run if that call fails. |
+| `COINGECKO_API_KEY` | No | Raises CoinGecko rate limits. Pricing still works without it. |
 
-## Running Locally
+## Run locally
 
 ```bash
 npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+Open [http://localhost:3000](http://localhost:3000).
 
-## Pages
-
-| Route | Description |
-|---|---|
-| `/` | Landing page — hero, feature overview, wallet input |
-| `/wallet` | Wallet analytics dashboard |
-
-## API Routes
+## API
 
 | Route | Description |
 |---|---|
-| `GET /api/wallet/[address]` | Full wallet analysis |
+| `GET /api/wallet/[address]` | Full briefing payload |
 | `GET /api/wallet/[address]/balance` | Token balances with USD pricing |
-| `GET /api/wallet/[address]/transactions` | Transaction history |
-| `GET /api/wallet/[address]/assets` | Owned NFTs & on-chain objects |
+| `GET /api/wallet/[address]/transactions` | Recent transaction snapshot |
+| `GET /api/wallet/[address]/assets` | Owned objects |
 
-## Project Structure
+## Project shape
 
 ```
 src/
-├── app/
-│   ├── globals.css
-│   ├── layout.tsx
-│   ├── page.tsx                   # Landing page
-│   ├── wallet/
-│   │   └── page.tsx               # Wallet dashboard
-│   └── api/
-│       ├── wallet/[address]/      # Wallet analysis route
-│       │   ├── route.ts
-│       │   ├── balance/route.ts
-│       │   ├── transactions/route.ts
-│       │   └── assets/route.ts
-│       └── ai/explain/route.ts    # AI explanation route
+├── app/                 Landing, Pulse, Portfolio, Settings, API
 ├── components/
-│   ├── landing/                   # Landing page sections
-│   ├── layout/                    # Header, BottomNav
-│   ├── ui/                        # Shared primitives (Skeleton, SectionHeader, etc.)
-│   └── wallet/                    # Dashboard components
-│       ├── WalletOverview.tsx
-│       ├── AIProfileCard.tsx
-│       ├── ActivityChart.tsx
-│       ├── SummaryCards.tsx
-│       ├── TokenBalances.tsx
-│       ├── TransactionList.tsx
-│       ├── OwnedAssets.tsx
-│       ├── SafetyScore.tsx
-│       ├── RiskAlerts.tsx
-│       ├── CriticalAlertBanner.tsx
-│       ├── SafetyRecommendations.tsx
-│       ├── AIExplanations.tsx
-│       ├── AccountSettings.tsx
-│       ├── PreferencesSettings.tsx
-│       ├── NetworkSettings.tsx
-│       └── DashboardSkeleton.tsx
-├── lib/
-│   ├── api/                       # API client + route helpers
-│   ├── hooks/                     # React hooks
-│   ├── sui/                       # Sui client + constants
-│   ├── utils.ts
-│   └── validators/
-├── services/
-│   ├── ai/                        # AI explanation engine
-│   ├── price/                     # CoinGecko USD pricing
-│   └── sui/                       # Sui data services + transformers
+│   ├── landing/          Hero, preview, how it works, trust
+│   ├── layout/           App shell, rail, header, footer
+│   ├── pulse/            Briefing views
+│   ├── ui/               Logo, scan input, primitives
+│   └── wallet/           Evidence views used by Portfolio
+├── lib/sui/             RPC client and constants
+├── services/sui/        Chain reads and transformers
 └── types/
-    ├── wallet.ts
-    └── api.ts
 ```
-
-## Submission Notes
-
-Built for **CLAY Hackathon 2026**.
-
-Focus: wallet intelligence, behavioral analysis, and accessible on-chain transparency for the Sui ecosystem.

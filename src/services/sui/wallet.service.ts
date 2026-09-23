@@ -3,6 +3,7 @@ import {
   isWalletAddressInvalid,
   validateWalletAddress,
 } from "@/lib/validators/wallet-address";
+import { getMainnetRpcUrls, getSuiClient, getSuiNetwork, resetSuiClient } from "@/lib/sui/client";
 import { fetchWalletBalances } from "./balance.service";
 import { fetchWalletTransactions } from "./transaction.service";
 import { fetchWalletAssets } from "./assets.service";
@@ -26,24 +27,39 @@ export function parseWalletAddress(address: string): string {
   return validation.normalized;
 }
 
+async function loadAnalysis(address: string): Promise<WalletAnalysis> {
+  const [balances, { raw: transactions }, assets] = await Promise.all([
+    fetchWalletBalances(address),
+    fetchWalletTransactions(address),
+    fetchWalletAssets(address),
+  ]);
+
+  return buildWalletAnalysis(address, balances, transactions, assets);
+}
+
 export async function fetchWalletAnalysis(
   address: string
 ): Promise<WalletAnalysis> {
   const normalized = parseWalletAddress(address);
+  const urls = getSuiNetwork() === "mainnet" ? getMainnetRpcUrls() : [undefined];
+  let lastError: unknown;
 
-  try {
-    const [balances, { raw: transactions }, assets] = await Promise.all([
-      fetchWalletBalances(normalized),
-      fetchWalletTransactions(normalized),
-      fetchWalletAssets(normalized),
-    ]);
-
-    return await buildWalletAnalysis(normalized, balances, transactions, assets);
-  } catch (error) {
-    if (error instanceof WalletServiceError) throw error;
-    throw new WalletServiceError(
-      "Failed to fetch wallet data from Sui network",
-      "FETCH_FAILED"
-    );
+  for (const url of urls) {
+    try {
+      resetSuiClient();
+      getSuiClient(url);
+      return await loadAnalysis(normalized);
+    } catch (error) {
+      lastError = error;
+      if (error instanceof WalletServiceError && error.code === "INVALID_ADDRESS") {
+        throw error;
+      }
+    }
   }
+
+  if (lastError instanceof WalletServiceError) throw lastError;
+  throw new WalletServiceError(
+    "Failed to fetch wallet data from Sui network",
+    "FETCH_FAILED"
+  );
 }
